@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPHtmlParser\StaticDom;
+use PHPUnit\Framework\TestCase;
 
-class StaticDomTest extends PHPUnit_Framework_TestCase {
-
+class StaticDomTest extends TestCase
+{
     public function setUp()
     {
         StaticDom::mount();
@@ -16,61 +19,61 @@ class StaticDomTest extends PHPUnit_Framework_TestCase {
 
     public function testMountWithDom()
     {
-        $dom = new PHPHtmlParser\Dom;
+        $dom = new PHPHtmlParser\Dom();
         StaticDom::unload();
         $status = StaticDom::mount('newDom', $dom);
         $this->assertTrue($status);
     }
 
-    public function testLoad()
+    public function testloadStr()
     {
-        $dom = Dom::load('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');
+        $dom = Dom::loadStr('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>');
         $div = $dom->find('div', 0);
         $this->assertEquals('<div class="all"><p>Hey bro, <a href="google.com">click here</a><br /> :)</p></div>', $div->outerHtml);
     }
 
     public function testLoadWithFile()
     {
-        $dom = Dom::load('tests/files/small.html');
+        $dom = Dom::loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-user font', 0)->text);
     }
 
     public function testLoadFromFile()
     {
-        $dom = Dom::loadFromFile('tests/files/small.html');
+        $dom = Dom::loadFromFile('tests/data/files/small.html');
         $this->assertEquals('VonBurgermeister', $dom->find('.post-user font', 0)->text);
     }
 
-    public function testFind()
-    {
-        Dom::load('tests/files/horrible.html');
-        $this->assertEquals('<input type="submit" tabindex="0" name="submit" value="Информации" />', Dom::find('table input', 1)->outerHtml);
-    }
-
     /**
-     * @expectedException PHPHtmlParser\Exceptions\NotLoadedException
+     * @expectedException \PHPHtmlParser\Exceptions\NotLoadedException
      */
-    public function testFindNoLoad()
+    public function testFindNoloadStr()
     {
         Dom::find('.post-user font', 0);
     }
 
     public function testFindI()
     {
-        Dom::load('tests/files/horrible.html');
-        $this->assertEquals('[ Досие бр:12928 ]', Dom::find('i')[0]->innerHtml);
+        Dom::loadFromFile('tests/data/files/big.html');
+        $this->assertEquals('В кустах блестит металл<br /> И искрится ток<br /> Человечеству конец', Dom::find('i')[1]->innerHtml);
     }
 
     public function testLoadFromUrl()
     {
-        $curl = Mockery::mock('PHPHtmlParser\CurlInterface');
-        $curl->shouldReceive('get')
-             ->once()
-             ->with('http://google.com')
-             ->andReturn(file_get_contents('tests/files/small.html'));
+        $streamMock = Mockery::mock(\Psr\Http\Message\StreamInterface::class);
+        $streamMock->shouldReceive('getContents')
+            ->once()
+            ->andReturn(\file_get_contents('tests/data/files/small.html'));
+        $responseMock = Mockery::mock(\Psr\Http\Message\ResponseInterface::class);
+        $responseMock->shouldReceive('getBody')
+            ->once()
+            ->andReturn($streamMock);
+        $clientMock = Mockery::mock(\Psr\Http\Client\ClientInterface::class);
+        $clientMock->shouldReceive('sendRequest')
+            ->once()
+            ->andReturn($responseMock);
 
-        Dom::loadFromUrl('http://google.com', [], $curl);
+        Dom::loadFromUrl('http://google.com', null, $clientMock);
         $this->assertEquals('VonBurgermeister', Dom::find('.post-row div .post-user font', 0)->text);
     }
-
 }

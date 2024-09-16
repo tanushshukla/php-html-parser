@@ -1,114 +1,93 @@
 ### Development
 
-## 1.7.0
+All notable changes to this project will be documented in this file.
 
-- Added .scrutinizer.yml to repo
-- Reformated code to PSR-1/2
-- Improved the test coverage and some small code changes
-- Added removeAttribute and removeAllAttributes tag methods fixes #57
-- Added replaceNode method implements #52
-- Added a delete method. fixes #43
-- Added semicolon after &#10 for linebreak preservation. fixes #62
-- Removed code that removed <code> tag fixes #60
-- Added new test related to #63
-- Refactored the nodes into inner and leaf nodes
-- Fixed Strings example in README
-- Close this header so the markdown will render properly
-- Added preserve line break option. Defaults to false.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## 3.1.1
+
+### Changed
+- Fixed issue with numbers in comments.
+- Updated minimume php version to correct version.
+- Comment tags are now self-closing when cleanup input is set to false.
+
+## 3.1.0
+
+### Changed
+- Updated to include Tidelift subscription option.
+- Removed php-coverall.
+- Removed Guzzle 6 Adapter.
+- Added support for Guzzle 7.
+
+## 3.0.1
+
+### Changed
+- Updated all DTOs to make them immutable.
+- Updated documentation.
+
+## 3.0.0
+
+### Added
+- Support for PSR7 HTTP clients and requests for URL calls has been added.
+- PHAN support and fixed all issues from PHAN has been added.
+- PHP-CS-Fixer added.
+- Support for html5 charset detection.
+- Added the ability to match both parent and children.
+- Added character set conversion in load.
+
+### Changed
+- Fixed issue with \ causing an infite loop.
+- CDATA should not be altered when cleanupInput is false.
+- Added tag attribute DTO.
+- Cleaned up the selector logic.
+- Fixed issue with greedy regex for charset detection.
+- Fixed bug causing infinite loops in some cases.
+- Refactored the way we handle options. Removed the magical option array.
+
+### Removed
+- Curl interface and curl implementation has been removed.
+- Removed support for the depth first search option.
+- `findById()` method removed from Dom object.
+- Removed `load()` method in Dom object.
+- Removed support for php 7.1.
+
+## 2.2.1
+
+### Added
+- Added php_cs.
+- Added support for PSR7 requests.
+- Added the attribute type dto.
+
+## 2.2.0
+
+### Added
+- Added support for php 7.4.
+- Added custom header support for curl request.
+- Added gzip detection and decoding.
+- Added additional type checking.
+
+### Changed
+- Fixed bug with multiple selectors query.
+- Updated documentation.
+- Fixed issue with Dom object.
 
 
-## 1.6.9
+## 2.1.0
 
-- Added Changelog
-- Fixed issue with spaces befor closing tag Fixes #45
-- Fixed some code quality issues found by scrutinizer
-- Added Scrutinizer to README
-- Reformated code to comply with PSR-1/2
-- Added preserve line break option. Defaults to false. fixes #40
-- Updated the tests
-- Added options: cleanupInput, removeScripts and removeStyles
+### Added
+- New `removeSmartyScripts` configuration setting. Defaults to true.
+- Added `declare(strict_types=1)` to all source files.
+- Added new option `depthFirstSearch`.
+- Deprecated option `depthFirstSearch` and marked for removal in `3.0.0`.
+- Added multi class selections support.
+- Added case insensitive attribute matching.
+- Added new option `htmlSpecialCharsDecode`.
 
-## 1.6.8
-
-- Added comments and reformated some code
-- Added support for non-escaped quotes in attribute value fixes #37
-- Cleaned up the comments and php docs
-- Removed version in composer json
-- Updated composer version
-- Refactoring out isChild method.
-- Updated in code documentation
-- Updated composer
-
-$$ 1.6.7
-
-- Added tests for the new array access
-- Added feature to allow array usage of html node. fixes #26
-- Update HtmlNode.php
-- Added test to cover issue #28
-- FIX: File name is longer than the maximum allowed path
-
-## 1.6.6
-
-- Replaced preg_replace with mb_ereg_replace
-- Added child selector fixes #24
-- Updated the dev version of phpunit
-
-## 1.6.5
-
-- Fixed bug when no attribute tags are last tag (with out space). fixes #16
-- Fixed some documentation inconsistencies fixes #15
-- Made loadStr a public methor Fixes #18
-- Update a problem with the README fixes #11
-- Added setAttribute to the node fixes #7
-- Check if open_basedir is enabled: Dont use CURLOPT_FOLLOWLOCATION
-
-## 1.6.4
-
-- Added tests and updated README
-- Updated the tests and moved some files
-- Added the option to enforce the encoding
-- Fixed a problem with handeling the unknown child exception
-- Updated some tests
-- Added coverall badge and package
-
-## 1.6.3
-
-- Added initial support for 'strict' parsing option
-- Added an optional paramter to enable recursive text
-- Added appropriat Options tests
-- Changed all exception to specific objects
-- Added a whitespaceTextNode option and test
-- Added support for an options array
-
-## 1.6.2
-
-- Standardised indentation for easyer reading on github
-- Update AbstractNode.php
-- Added a test for hhvm in my travis.yml
-- Added a LICENSE.md file for MIT
-- Added build status to README
-- Added travis.yml
-- Changed the file name of the abstract node
-- fixed code in collection class where instance of arrayIterator is to be rturned
-- Updated documentation
-- Added a curl interface and a simple curl class.
-- Removed the Guzzle dependancy
-- Abstracted the Node class as it should have been done in the first place
-- Added integrity checks for the cached html
-- Added some basic caching of the dom html
-- Added a toArray() method to the collection and a test
-
-## 1.6.1
-
-- Moved back to using guzzle so expections are thrown when their was an error with loading a url
-- Added tests for the Static Facade Fixed a few issues brought to light from the new tests
-- Added a static facade
-- Changed encoding to be a local attribute instead of a static attribute
-- Solved issue #2 When you attempt to load an html page from a URL using loadFromUrl the encoding is incorrect.
-- Added easyer loading of files and urls. Still have a problem with encoding while loading from url.
-- Added guzzle and loadFromUrl option
-- Fixed an issue with no value attributes
-- Added magic and each methods to the collection. Plus some tests
-- Added a collection object
-- Added charset encoding
-- fixed a bug with closing tags If a closing tag did not have an opening tag it would cause the scan to end instead of ignoring the closing tag.
+### Changed
+- Started using a changelog.
+- Fixed bug that caused an infinite loop when no content found in tags.
+- Moved the Mock object to the tests directory, where it belongs.
+- Changes from `PSR-0` to `PSR-4` autoloading.
+- Updated `CONTRIBUTING.md` contents.
+- Updated docblocks.
